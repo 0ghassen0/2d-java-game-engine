@@ -34,19 +34,6 @@ The engine was designed from scratch to support entity-component systems, GAL (G
 
 ---
 
-## Demo
-
-Watch the full gameplay demo on Medal.tv: [https://medal.tv/games/imported-clips/clips/n02h6w0ygun8mt-cG?invite=cr-MSx5OWEsMjgwMDY4NjEy](https://medal.tv/games/imported-clips/clips/n02h6w0ygun8mt-cG?invite=cr-MSx5OWEsMjgwMDY4NjEy)
-
-The demo showcases:
-- Frank digging through the two-layer terrain
-- Apple pushing and falling mechanics
-- Enemy AI behaviors
-- Projectile system
-- Debug mode features
-
----
-
 ## Project Structure
 
 ```
