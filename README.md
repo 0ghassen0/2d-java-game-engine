@@ -9,6 +9,8 @@ This project consists of two major components:
 
 The engine was designed from scratch to support entity-component systems, GAL (Game Automaton Language) for AI behaviors, and flexible game configuration. The Fruity Frank game demonstrates the engine's capabilities with complex mechanics like two-layer terrain, apple physics, and dynamic enemy AI.
 
+![Fruity Frank gameplay](docs/media/demo.gif)
+
 ---
 
 ## Architecture
@@ -80,6 +82,24 @@ Reading it as MVCB: `FrankController` is the **C**ontroller, `FrankBot`/`GALBot`
 
 ---
 
+## Screenshots
+
+**Gameplay** — galleries dug through the two-layer grass, fruits to collect, and GAL-driven monsters:
+
+| | |
+|:---:|:---:|
+| ![Early gameplay: black galleries dug through the grass, scattered fruits and two purple monsters](docs/media/gameplay_1.jpg) | ![Mid-game: long dug galleries across the scrolled view](docs/media/gameplay_2.jpg) |
+| ![Late game: heavily dug field with wide galleries and a monster at lower right](docs/media/gameplay_3.jpg) | |
+
+**Menus** — start screen, pause menu, game over and victory, all clickable with the mouse:
+
+| | |
+|:---:|:---:|
+| ![Start screen](sprites/fruity-frank_start.png) | ![Pause menu (ESC)](sprites/echap_menu.png) |
+| ![Game over screen](sprites/game-over_restart_exit.png) | ![Victory screen](sprites/victory_restart_exit.png) |
+
+---
+
 ## Project Structure
 
 ```
@@ -111,6 +131,9 @@ ple2026/
 │       ├── ast/           # AST nodes
 │       ├── parser/        # JavaCC grammar
 │       └── GalCompiler.java # Bridge between parser and engine
+├── src-pacman/            # Engine test bench
+│   └── game/              # Incomplete Pac-Man implementation used for
+│                          # integration tests and graphics validation
 └── src-Frank/             # Fruity Frank game implementation
     └── frank/
         ├── game/          # Game-specific model, rules, config

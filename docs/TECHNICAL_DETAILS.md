@@ -204,7 +204,7 @@ ple2026/
 │   │   ├── actions/               # Move, Turn, Hit, Egg, Explode, Pick
 │   │   └── conditions/            # Closest, Step, CanFall, Got, MyDir
 │   └── graphics/                  # View, Avatar, Painter, Sprites, Palette
-├── src-pacman/game/               # Reference PacMan game (provided)
+├── src-pacman/game/               # Engine test bench (incomplete Pac-Man implementation, used for integration tests and graphics validation)
 ├── lib/                           # Optional dependencies (JUnit 6 for src-pacman & tests)
 ├── bin/                           # Build output (classes + fruity-frank.jar)
 └── given.jar                      # oop library (runtime, graphics, sound)
