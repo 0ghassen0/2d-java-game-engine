@@ -139,6 +139,15 @@ All enemy behaviors are defined in GAL (Game Automaton Language) files:
 | ESC | Pause / Resume |
 | F3 | Toggle debug mode |
 
+### Game Menus
+
+In-game menus are managed by `FrankController`, and all buttons are clickable with the mouse:
+
+- **Start screen** (`fruity-frank_start.png`)
+- **Pause menu** (`echap_menu.png`) — Resume / Restart / Exit
+- **Game over screen** (`game-over_restart_exit.png`) — Restart / Exit
+- **Victory screen** (`victory_restart_exit.png`) — Restart / Exit
+
 ---
 
 ## Credits
