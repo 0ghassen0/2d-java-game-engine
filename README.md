@@ -11,6 +11,52 @@ The engine was designed from scratch to support entity-component systems, GAL (G
 
 ---
 
+## Architecture
+
+The project is layered into three source trees: the generic engine, the GAL toolchain that compiles behavior files into executable automata, and the game itself.
+
+```mermaid
+flowchart TB
+    INP(["Keyboard / Mouse"])
+    OUT(["Screen"])
+
+    subgraph GAME["Game layer — src-Frank"]
+        FC["FrankController<br/>input, menus, pause"]
+        FB["FrankBot<br/>player bot"]
+        FFM["FruityFrankModel<br/>rules, game state"]
+        ENT["Entities<br/>Frank, Enemy, Apple, Fruit, Spawner"]
+        FV["FrankView<br/>avatars, sprites, HUD"]
+    end
+
+    subgraph ENGINE["Engine layer — src-engine"]
+        LOOPS["Ticker, Brain, Tasks<br/>motion 30 tps / AI 8 tps / spawn 2 tps"]
+        GALRT["GAL runtime<br/>Automaton, State, GALBot"]
+        CORE["Grid, ISU coords, Bounding,<br/>rule-based collisions, Camera, Debug"]
+    end
+
+    subgraph TOOL["GAL toolchain — src-parser"]
+        JJ["JavaCC parser (parser.jj)"]
+        AST["AST (gal.ast.*)"]
+        GC["GalCompiler"]
+    end
+
+    GALF[("gal_fsm/ .gal files")]
+
+    INP --> FC --> FB -->|"decides actions"| FFM
+    FFM --> ENT
+    FFM --> FV --> OUT
+    LOOPS --> FFM
+    CORE --> FFM
+    ENT -.->|"piloted every AI tick"| GALRT
+
+    GALF --> JJ --> AST --> GC
+    GC -- compiles to --> GALRT
+```
+
+Reading it as MVCB: `FrankController` is the **C**ontroller, `FrankBot`/`GALBot` are the **B**ot layer (decision), `FruityFrankModel` is the **M**odel, and `FrankView` is the **V**iew. The Model knows nothing about input or display; the View only reads the Model.
+
+---
+
 ## Key Features
 
 ### Game Engine
@@ -127,6 +173,26 @@ All enemy behaviors are defined in GAL (Game Automaton Language) files:
 | Pickup | Handles fruit collection | gal_fsm/Pickup.gal |
 
 **Key Innovation**: The GAL Compiler (src-parser/gal/ast/GalCompiler.java) bridges the teacher's GAL parser AST with our engine's executable automata, enabling runtime behavior modification.
+
+### GAL Compilation Pipeline
+
+```mermaid
+flowchart LR
+    GAL["gal_fsm/*.gal<br/>Tracking.gal, Flee.gal, AppleFall.gal, ..."]
+    P["JavaCC parser<br/>parser.jj"]
+    AST["AST<br/>gal.ast.Automaton, Transition, Condition, FunCall"]
+    GC["GalCompiler.compile()"]
+    AUT["Executable Automaton<br/>engine.gal.aut.Automaton, State"]
+    BOT["GALBot(entity, automaton)<br/>pilots its entity each AI tick"]
+
+    GAL -->|"Parser.from_file()"| P
+    P --> AST
+    AST -->|"each AST node mapped to<br/>iGALCondition / iGALAction"| GC
+    GC --> AUT
+    AUT -->|"GameApp.loadGalAutomata()<br/>name -> automaton table"| BOT
+```
+
+Result: behaviors are never hardcoded — editing a `.gal` file changes the game without recompiling Java.
 
 ---
 
